@@ -1,9 +1,23 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+require 'faker'
+
+puts "Xoá dữ liệu cũ..."
+Note.delete_all
+Topic.delete_all
+
+puts "Tạo 100 topic..."
+topics = 10000.times.map do
+  Topic.create!(
+    name: Faker::Book.genre
+  )
+end
+
+puts "Tạo 1000 note..."
+100000.times do
+  Note.create!(
+    title: Faker::Lorem.sentence(word_count: 3),
+    content: Faker::Lorem.paragraph(sentence_count: 5),
+    topic: topics.sample
+  )
+end
+
+puts "Hoàn tất seed dữ liệu!"
