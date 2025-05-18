@@ -3,6 +3,7 @@ module Api
     class NotesController < ApplicationController
       include Response
       before_action :find_note, only: %i[show update destroy]
+      before_action :find_topic, only: %i[get_notes_by_topic]
       def index
         notes = Note.all
         json_response notes, "Notes retrieved successfully"
@@ -31,7 +32,7 @@ module Api
 
       def destroy
         @note.destroy!
-        json_response nil, "Note deleted successfully", :no_content
+        json_response nil, "Note deleted successfully"
       end
 
       def get_notes_by_topic
@@ -48,6 +49,11 @@ module Api
       def find_note
         @note = Note.find_by id: params[:id]
         json_error_response("Note not found", :not_found) unless @note
+      end
+
+      def find_topic
+        @topic = Topic.find_by id: params[:topic_id]
+        json_error_response("Topic not found", :not_found) unless @topic
       end
     end
   end
