@@ -32,7 +32,7 @@ module Api
 
       def destroy
         @topic.destroy!
-        json_response nil, "Topic deleted successfully", :no_content
+        json_response nil, "Topic deleted successfully"
       end
 
       private
