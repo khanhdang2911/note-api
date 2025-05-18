@@ -1,11 +1,20 @@
 module Response
-  def json_response(object, message = nil, status = :ok)
+  def json_response(object = nil, message = nil, status = :ok)
     response = {}
-    puts "Message: #{message}"
     if message
       response["message"] = message
     end
-    response["data"] = object
+    if object
+      response["data"] = object
+    end
+    render json: response, status: status
+  end
+
+  def json_error_response(message = nil, status = :unprocessable_entity)
+    response = {}
+    if message
+      response["message"] = message
+    end
     render json: response, status: status
   end
 end
