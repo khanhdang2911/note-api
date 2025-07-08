@@ -1,7 +1,6 @@
 module Api
   module V1
     class NotesController < ApplicationController
-      include Response
       before_action :find_note, only: %i[show update destroy]
       before_action :find_topic, only: %i[get_notes_by_topic]
       def index
