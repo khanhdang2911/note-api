@@ -31,6 +31,11 @@ gem "bootsnap", require: false
 gem "grape"
 gem "active_model_serializers"
 
+gem "bcrypt", "~> 3.1", ">= 3.1.12"
+gem "jwt", "~> 1.5", ">= 1.5.4"
+gem "figaro", "~> 1.1", ">= 1.1.1"
+gem "rack-cors"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

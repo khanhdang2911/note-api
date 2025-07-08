@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_18_032331) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_08_143421) do
   create_table "notes", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -35,7 +35,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_18_032331) do
     t.string "address", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.string "refresh_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["refresh_token"], name: "index_users_on_refresh_token", unique: true
   end
 
   add_foreign_key "notes", "topics"

@@ -3,7 +3,7 @@ module Api
     class TopicsController < ApplicationController
     rescue_from ActiveRecord::RecordNotDestroyed, with: :handle_record_not_destroyed
     before_action :find_topic, only: %i[show update destroy]
-    include Response
+    before_action :authorized
       def index
         topics = Topic.all
         json_response topics, "Topics retrieved successfully"
