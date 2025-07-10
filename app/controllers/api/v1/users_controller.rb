@@ -26,18 +26,16 @@ module Api
           }
           json_response ({ access_token: access_token }), "Login successfully!", :ok
         else
-          json_error_response "Invalid email or password, please try again."
+          json_error_response "Invalid email or password, please try again.", :unauthorized
         end
       end
 
       def refresh_token
-        if cookies.encrypted[:refresh_token].present?
-          refresh_token = cookies.encrypted[:refresh_token]
-          if @current_user.refresh_token == refresh_token
-            payload = { user_id: @current_user.id }
-            new_access_token = JwtService.encode_token payload
-            json_response ({ access_token: new_access_token }), :ok
-          end
+        refresh_token_value = get_refresh_token_from_cookies
+        if refresh_token_value.present? && @current_user.refresh_token == refresh_token_value
+          payload = { user_id: @current_user.id }
+          new_access_token = JwtService.encode_token payload
+          json_response ({ access_token: new_access_token }), :ok
         else
           json_error_response "Unauthorized access", :unauthorized
         end
@@ -47,6 +45,10 @@ module Api
       private
       def user_params
         params.permit User::USER_PARAMS
+      end
+
+      def get_refresh_token_from_cookies
+        cookies.encrypted[:refresh_token]
       end
     end
   end
